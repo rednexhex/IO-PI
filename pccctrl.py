@@ -8,14 +8,24 @@ import time
 
 iodata = "unknown "
 
-sensepin1 = 17
-sensepin2 = 27
+sensepin1 = 5
+sensepin2 = 6
+sensepin3 = 13
+sensepin4 = 19
 sense1 = Button(sensepin1, pull_up=True)
 sense2 = Button(sensepin2, pull_up=True)
+sense3 = Button(sensepin3, pull_up=True)
+sense4 = Button(sensepin4, pull_up=True)
+
+
 relaypin1 = 14
 relaypin2 = 15
+relaypin3 = 23
+relaypin4 = 24
 relay1 = OutputDevice(relaypin1, active_high=False, initial_value=False) 
 relay2 = OutputDevice(relaypin2, active_high=False, initial_value=False)
+relay3 = OutputDevice(relaypin3, active_high=False, initial_value=False) 
+relay4 = OutputDevice(relaypin4, active_high=False, initial_value=False)
 
 HOST = '0.0.0.0'  # Listen on all available network interfaces
 PORT = 48971       # Port to bind the server
@@ -45,6 +55,8 @@ def start_server():
                  current_state = "io1open\r\n" 
                  conn.sendall(current_state.encode())
                  print("Pin1 opened (circuit broken)")
+                 
+                 
                 
                 def pin2_closed():
                  current_state = "io2closed\r\n" 
@@ -55,12 +67,37 @@ def start_server():
                  current_state = "io2open\r\n" 
                  conn.sendall(current_state.encode())
                  print("Pin2 opened (circuit broken)")
+                 
+                 
+                def pin3_closed():
+                 current_state = "io3closed\r\n" 
+                 conn.sendall(current_state.encode())
+                 print("Pin3 closed (circuit completed)")
+                
+                def pin3_opened():
+                 current_state = "io3open\r\n" 
+                 conn.sendall(current_state.encode())
+                 print("Pin3 opened (circuit broken)")
+                 
+                 
+                def pin4_closed():
+                 current_state = "io4closed\r\n" 
+                 conn.sendall(current_state.encode())
+                 print("Pin4 closed (circuit completed)")
+                
+                def pin4_opened():
+                 current_state = "io4open\r\n" 
+                 conn.sendall(current_state.encode())
+                 print("Pin4 opened (circuit broken)")
 
                 sense1.when_pressed = pin1_closed
                 sense1.when_released = pin1_opened
                 sense2.when_pressed = pin2_closed
                 sense2.when_released = pin2_opened         
-                
+                sense3.when_pressed = pin3_closed
+                sense3.when_released = pin3_opened
+                sense4.when_pressed = pin4_closed
+                sense4.when_released = pin4_opened 
                 
                 print(f"Connected by {addr}")
                 while True:
@@ -82,13 +119,14 @@ def monitor_iodata():
             # print(f"iodata changed to: {iodata.strip()}")
 
             # Take action based on the new iodata value
-            if iodata.strip() == "rel1-on":
+            if iodata.strip() == "rel2-on":
                 relay1.on()
                 # print("Relay 1 turned ON")
 
-            if iodata.strip() == "rel1-off":
+            if iodata.strip() == "rel2-off":
                 relay1.off()
                 # print("Relay 1 turned OFF")
+                
                 
             if iodata.strip() == "rel2-on":
                 relay2.on()
@@ -96,6 +134,22 @@ def monitor_iodata():
 
             if iodata.strip() == "rel2-off":
                 relay2.off()    
+                
+                
+            if iodata.strip() == "rel3-on":
+                relay3.on()
+                # print("Relay 1 turned ON")
+
+            if iodata.strip() == "rel3-off":
+                relay3.off()
+                
+                
+            if iodata.strip() == "rel4-on":
+                relay4.on()
+                # print("Relay 1 turned ON")
+
+            if iodata.strip() == "rel4-off":
+                relay4.off()                                        
 
             last_value = iodata  # Update the last known value
 
