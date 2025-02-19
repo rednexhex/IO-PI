@@ -46,49 +46,41 @@ def start_server():
                 conn.sendall(welcomemsg.encode())
                 conn.sendall(tagmsg.encode())
                 
-                def pin1_closed():
-                 current_state = "io1closed\r\n" 
-                 conn.sendall(current_state.encode())
-                 print("Pin1 closed (circuit completed)")
                 
-                def pin1_opened():
-                 current_state = "io1open\r\n" 
+                def pin1_closed():
+                 current_state = "iostate,1:1\r\n" 
                  conn.sendall(current_state.encode())
-                 print("Pin1 opened (circuit broken)")
-                 
+                                
+                def pin1_opened():
+                 current_state = "iostate,1:0\r\n" 
+                 conn.sendall(current_state.encode())                 
                  
                 
                 def pin2_closed():
-                 current_state = "io2closed\r\n" 
+                 current_state = "iostate,2:1\r\n" 
                  conn.sendall(current_state.encode())
-                 print("Pin2 closed (circuit completed)")
-                
+                                
                 def pin2_opened():
-                 current_state = "io2open\r\n" 
-                 conn.sendall(current_state.encode())
-                 print("Pin2 opened (circuit broken)")
+                 current_state = "iostate,2:0\r\n" 
+                 conn.sendall(current_state.encode()) 
                  
                  
                 def pin3_closed():
-                 current_state = "io3closed\r\n" 
+                 current_state = "iostate,3:1\r\n" 
                  conn.sendall(current_state.encode())
-                 print("Pin3 closed (circuit completed)")
-                
+                                
                 def pin3_opened():
-                 current_state = "io3open\r\n" 
-                 conn.sendall(current_state.encode())
-                 print("Pin3 opened (circuit broken)")
+                 current_state = "iostate,3:0\r\n" 
+                 conn.sendall(current_state.encode()) 
                  
                  
                 def pin4_closed():
-                 current_state = "io4closed\r\n" 
+                 current_state = "iostate,4:1\r\n" 
                  conn.sendall(current_state.encode())
-                 print("Pin4 closed (circuit completed)")
-                
+                                
                 def pin4_opened():
-                 current_state = "io4open\r\n" 
-                 conn.sendall(current_state.encode())
-                 print("Pin4 opened (circuit broken)")
+                 current_state = "iostate,4:0\r\n" 
+                 conn.sendall(current_state.encode()) 
 
                 sense1.when_pressed = pin1_closed
                 sense1.when_released = pin1_opened
@@ -112,44 +104,47 @@ def start_server():
                 
 def monitor_iodata():
     global iodata
-    last_value = iodata  # Store the initial value of iodata
-
+    last_value = iodata
+    
     while True:
         if iodata.strip() != last_value.strip():  # Detect changes
             # print(f"iodata changed to: {iodata.strip()}")
 
             # Take action based on the new iodata value
-            if iodata.strip() == "rel2-on":
+            if iodata.strip() == "relstate,1:1":
                 relay1.on()
                 # print("Relay 1 turned ON")
 
-            if iodata.strip() == "rel2-off":
+            if iodata.strip() == "relstate,1:0":
                 relay1.off()
                 # print("Relay 1 turned OFF")
                 
                 
-            if iodata.strip() == "rel2-on":
-                relay2.on()
+            if iodata.strip() == "relstate,2:1":
+                relay1.on()
                 # print("Relay 1 turned ON")
 
-            if iodata.strip() == "rel2-off":
-                relay2.off()    
+            if iodata.strip() == "relstate,2:0":
+                relay1.off()
+                # print("Relay 1 turned OFF")    
                 
                 
-            if iodata.strip() == "rel3-on":
-                relay3.on()
+            if iodata.strip() == "relstate,3:1":
+                relay1.on()
                 # print("Relay 1 turned ON")
 
-            if iodata.strip() == "rel3-off":
-                relay3.off()
+            if iodata.strip() == "relstate,3:0":
+                relay1.off()
+                # print("Relay 1 turned OFF")
                 
                 
-            if iodata.strip() == "rel4-on":
-                relay4.on()
+            if iodata.strip() == "relstate,4:1":
+               relay1.on()
                 # print("Relay 1 turned ON")
 
-            if iodata.strip() == "rel4-off":
-                relay4.off()                                        
+            if iodata.strip() == "relstate,4:0":
+                relay1.off()
+                # print("Relay 1 turned OFF")                                      
 
             last_value = iodata  # Update the last known value
 
