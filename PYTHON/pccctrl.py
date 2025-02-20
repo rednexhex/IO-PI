@@ -8,27 +8,27 @@ import time
 
 iodata = "unknown "
 
-sensepin1 = 5
+sensepin1 = 4
 sensepin2 = 6
 sensepin3 = 13
-sensepin4 = 19
+sensepin4 = 26
 sense1 = Button(sensepin1, pull_up=True)
 sense2 = Button(sensepin2, pull_up=True)
 sense3 = Button(sensepin3, pull_up=True)
 sense4 = Button(sensepin4, pull_up=True)
 
 
-relaypin1 = 14
-relaypin2 = 15
-relaypin3 = 23
-relaypin4 = 24
+relaypin1 = 23
+relaypin2 = 24
+relaypin3 = 25
+relaypin4 = 12
 relay1 = OutputDevice(relaypin1, active_high=False, initial_value=False) 
 relay2 = OutputDevice(relaypin2, active_high=False, initial_value=False)
 relay3 = OutputDevice(relaypin3, active_high=False, initial_value=False) 
 relay4 = OutputDevice(relaypin4, active_high=False, initial_value=False)
 
 HOST = '0.0.0.0'  # Listen on all available network interfaces
-PORT = 48971       # Port to bind the server
+PORT = 1081       # Port to bind the server
 
 def start_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
@@ -109,6 +109,11 @@ def monitor_iodata():
     while True:
         if iodata.strip() != last_value.strip():  # Detect changes
             # print(f"iodata changed to: {iodata.strip()}")
+            word1 = iodata.split(",")
+            word2 = iodata.split(":")
+            print(f"word1 = {word1}")
+            print(f"word2 = {word2}")
+            
 
             # Take action based on the new iodata value
             if iodata.strip() == "relstate,1:1":
