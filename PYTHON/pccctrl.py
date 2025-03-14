@@ -18,10 +18,13 @@ sense3 = Button(sensepin3, pull_up=True)
 sense4 = Button(sensepin4, pull_up=True)
 
 
-relaypin1 = 23
-relaypin2 = 24
+relaypin1 = 14
+relaypin2 = 15
+relaypin3 = 18
+relaypin3 = 23
+relaypin3 = 24
 relaypin3 = 25
-relaypin4 = 12
+relaypin4 = 8
 relay1 = OutputDevice(relaypin1, active_high=False, initial_value=False) 
 relay2 = OutputDevice(relaypin2, active_high=False, initial_value=False)
 relay3 = OutputDevice(relaypin3, active_high=False, initial_value=False) 
