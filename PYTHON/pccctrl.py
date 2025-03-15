@@ -21,14 +21,20 @@ sense4 = Button(sensepin4, pull_up=True)
 relaypin1 = 14
 relaypin2 = 15
 relaypin3 = 18
-relaypin3 = 23
-relaypin3 = 24
-relaypin3 = 25
-relaypin4 = 8
-relay1 = OutputDevice(relaypin1, active_high=False, initial_value=False) 
-relay2 = OutputDevice(relaypin2, active_high=False, initial_value=False)
-relay3 = OutputDevice(relaypin3, active_high=False, initial_value=False) 
-relay4 = OutputDevice(relaypin4, active_high=False, initial_value=False)
+relaypin4 = 23
+relaypin5 = 24
+relaypin6 = 25
+relaypin7 = 8
+relaypin8 = 7
+relay1 = OutputDevice(relaypin1, active_high=true, initial_value=true) 
+relay2 = OutputDevice(relaypin2, active_high=true, initial_value=true)
+relay3 = OutputDevice(relaypin3, active_high=true, initial_value=true) 
+relay4 = OutputDevice(relaypin4, active_high=true, initial_value=true)
+relay5 = OutputDevice(relaypin5, active_high=true, initial_value=true) 
+relay6 = OutputDevice(relaypin6, active_high=true, initial_value=true)
+relay7 = OutputDevice(relaypin7, active_high=true, initial_value=true) 
+relay8 = OutputDevice(relaypin8, active_high=true, initial_value=true)
+
 
 HOST = '0.0.0.0'  # Listen on all available network interfaces
 PORT = 1081       # Port to bind the server
@@ -111,49 +117,68 @@ def monitor_iodata():
     
     while True:
         if iodata.strip() != last_value.strip():  # Detect changes
-            # print(f"iodata changed to: {iodata.strip()}")
             word1 = iodata.split(",")
             word2 = iodata.split(":")
             print(f"word1 = {word1}")
             print(f"word2 = {word2}")
             
 
-            # Take action based on the new iodata value
             if iodata.strip() == "relstate,1:1":
                 relay1.on()
-                # print("Relay 1 turned ON")
-
+            
             if iodata.strip() == "relstate,1:0":
                 relay1.off()
-                # print("Relay 1 turned OFF")
-                
+                            
                 
             if iodata.strip() == "relstate,2:1":
-                relay1.on()
-                # print("Relay 1 turned ON")
-
+                relay2.on()
+            
             if iodata.strip() == "relstate,2:0":
-                relay1.off()
-                # print("Relay 1 turned OFF")    
-                
+                relay2.off()
+                          
                 
             if iodata.strip() == "relstate,3:1":
-                relay1.on()
-                # print("Relay 1 turned ON")
-
+                relay3.on()
+            
             if iodata.strip() == "relstate,3:0":
-                relay1.off()
-                # print("Relay 1 turned OFF")
-                
+                relay3.off()
+                            
                 
             if iodata.strip() == "relstate,4:1":
-               relay1.on()
-                # print("Relay 1 turned ON")
-
+               relay4.on()
+            
             if iodata.strip() == "relstate,4:0":
-                relay1.off()
-                # print("Relay 1 turned OFF")                                      
-
+                relay4.off()
+            
+                
+            if iodata.strip() == "relstate,5:1":
+                relay5.on()
+            
+            if iodata.strip() == "relstate,5:0":
+                relay5.off()
+                            
+                
+            if iodata.strip() == "relstate,6:1":
+                relay6.on()
+            
+            if iodata.strip() == "relstate,6:0":
+                relay6.off()
+                          
+                
+            if iodata.strip() == "relstate,7:1":
+                relay7.on()
+            
+            if iodata.strip() == "relstate,7:0":
+                relay7.off()
+                            
+                
+            if iodata.strip() == "relstate,8:1":
+               relay8.on()
+            
+            if iodata.strip() == "relstate,8:0":
+                relay8.off()     
+                
+            
             last_value = iodata  # Update the last known value
 
         time.sleep(0.1)  # Small delay to reduce CPU usage         
