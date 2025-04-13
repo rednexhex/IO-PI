@@ -8,14 +8,22 @@ import time
 
 iodata = "unknown "
 
-sensepin1 = 4
-sensepin2 = 6
-sensepin3 = 13
-sensepin4 = 26
+sensepin1 = 2
+sensepin2 = 3
+sensepin3 = 4
+sensepin4 = 17
+sensepin5 = 27
+sensepin6 = 22
+sensepin7 = 19
+sensepin8 = 21
 sense1 = Button(sensepin1, pull_up=True)
 sense2 = Button(sensepin2, pull_up=True)
 sense3 = Button(sensepin3, pull_up=True)
 sense4 = Button(sensepin4, pull_up=True)
+sense5 = Button(sensepin5, pull_up=True)
+sense6 = Button(sensepin6, pull_up=True)
+sense7 = Button(sensepin7, pull_up=True)
+sense8 = Button(sensepin8, pull_up=True)
 
 
 relaypin1 = 14
@@ -26,14 +34,14 @@ relaypin5 = 24
 relaypin6 = 25
 relaypin7 = 8
 relaypin8 = 7
-relay1 = OutputDevice(relaypin1, active_high=true, initial_value=true) 
-relay2 = OutputDevice(relaypin2, active_high=true, initial_value=true)
-relay3 = OutputDevice(relaypin3, active_high=true, initial_value=true) 
-relay4 = OutputDevice(relaypin4, active_high=true, initial_value=true)
-relay5 = OutputDevice(relaypin5, active_high=true, initial_value=true) 
-relay6 = OutputDevice(relaypin6, active_high=true, initial_value=true)
-relay7 = OutputDevice(relaypin7, active_high=true, initial_value=true) 
-relay8 = OutputDevice(relaypin8, active_high=true, initial_value=true)
+relay1 = OutputDevice(relaypin1, active_high=True, initial_value=False) 
+relay2 = OutputDevice(relaypin2, active_high=True, initial_value=False)
+relay3 = OutputDevice(relaypin3, active_high=True, initial_value=False) 
+relay4 = OutputDevice(relaypin4, active_high=True, initial_value=False)
+relay5 = OutputDevice(relaypin5, active_high=True, initial_value=False) 
+relay6 = OutputDevice(relaypin6, active_high=True, initial_value=False)
+relay7 = OutputDevice(relaypin7, active_high=True, initial_value=False) 
+relay8 = OutputDevice(relaypin8, active_high=True, initial_value=False)
 
 
 HOST = '0.0.0.0'  # Listen on all available network interfaces
@@ -89,7 +97,42 @@ def start_server():
                                 
                 def pin4_opened():
                  current_state = "iostate,4:0\r\n" 
+                 conn.sendall(current_state.encode())
+                 
+                def pin5_closed():
+                 current_state = "iostate,5:1\r\n" 
+                 conn.sendall(current_state.encode())
+                                
+                def pin5_opened():
+                 current_state = "iostate,5:0\r\n" 
+                 conn.sendall(current_state.encode())                 
+                 
+                
+                def pin6_closed():
+                 current_state = "iostate,6:1\r\n" 
+                 conn.sendall(current_state.encode())
+                                
+                def pin6_opened():
+                 current_state = "iostate,6:0\r\n" 
                  conn.sendall(current_state.encode()) 
+                 
+                 
+                def pin7_closed():
+                 current_state = "iostate,7:1\r\n" 
+                 conn.sendall(current_state.encode())
+                                
+                def pin7_opened():
+                 current_state = "iostate,7:0\r\n" 
+                 conn.sendall(current_state.encode()) 
+                 
+                 
+                def pin8_closed():
+                 current_state = "iostate,8:1\r\n" 
+                 conn.sendall(current_state.encode())
+                                
+                def pin8_opened():
+                 current_state = "iostate,8:0\r\n" 
+                 conn.sendall(current_state.encode())  
 
                 sense1.when_pressed = pin1_closed
                 sense1.when_released = pin1_opened
@@ -117,10 +160,10 @@ def monitor_iodata():
     
     while True:
         if iodata.strip() != last_value.strip():  # Detect changes
-            word1 = iodata.split(",")
-            word2 = iodata.split(":")
-            print(f"word1 = {word1}")
-            print(f"word2 = {word2}")
+            #word1 = iodata.split(",")
+            #word2 = iodata.split(":")
+            #print(f"word1 = {word1}")
+            #print(f"word2 = {word2}")
             
 
             if iodata.strip() == "relstate,1:1":
@@ -128,6 +171,11 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,1:0":
                 relay1.off()
+            
+            if iodata.strip() == "relstate,1:2":
+                relay1.on()
+                time.sleep(3)
+                relay1.off()               
                             
                 
             if iodata.strip() == "relstate,2:1":
@@ -135,6 +183,11 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,2:0":
                 relay2.off()
+                
+            if iodata.strip() == "relstate,2:2":
+                relay2.on()
+                time.sleep(3)
+                relay2.off()                
                           
                 
             if iodata.strip() == "relstate,3:1":
@@ -142,6 +195,11 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,3:0":
                 relay3.off()
+                
+            if iodata.strip() == "relstate,3:2":
+                relay3.on()
+                time.sleep(3)
+                relay3.off()                         
                             
                 
             if iodata.strip() == "relstate,4:1":
@@ -149,6 +207,11 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,4:0":
                 relay4.off()
+                
+            if iodata.strip() == "relstate,4:2":
+                relay4.on()
+                time.sleep(3)
+                relay4.off()                         
             
                 
             if iodata.strip() == "relstate,5:1":
@@ -156,6 +219,11 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,5:0":
                 relay5.off()
+                
+            if iodata.strip() == "relstate,5:2":
+                relay5.on()
+                time.sleep(3)
+                relay5.off()                         
                             
                 
             if iodata.strip() == "relstate,6:1":
@@ -163,6 +231,11 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,6:0":
                 relay6.off()
+                
+            if iodata.strip() == "relstate,6:2":
+                relay6.on()
+                time.sleep(3)
+                relay6.off()                         
                           
                 
             if iodata.strip() == "relstate,7:1":
@@ -170,13 +243,44 @@ def monitor_iodata():
             
             if iodata.strip() == "relstate,7:0":
                 relay7.off()
+                
+            if iodata.strip() == "relstate,7:2":
+                relay7.on()
+                time.sleep(3)
+                relay7.off()                         
                             
                 
             if iodata.strip() == "relstate,8:1":
                relay8.on()
             
             if iodata.strip() == "relstate,8:0":
-                relay8.off()     
+                relay8.off()
+                
+            if iodata.strip() == "relstate,8:2":
+                relay8.on()
+                time.sleep(3)
+                relay8.off()
+                
+              
+            if iodata.strip() == "relstate,0:1":
+                relay1.on() 
+                relay2.on()
+                relay3.on() 
+                relay4.on()
+                relay5.on()
+                relay6.on()
+                relay7.on()
+                relay8.on()            
+                
+            if iodata.strip() == "relstate,0:0":
+                relay1.off() 
+                relay2.off()
+                relay3.off() 
+                relay4.off()
+                relay5.off()
+                relay6.off()
+                relay7.off()
+                relay8.off()                                               
                 
             
             last_value = iodata  # Update the last known value
