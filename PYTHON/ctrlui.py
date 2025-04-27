@@ -3,7 +3,7 @@ import socket
 from signal import pause
 
 # Server's address and port
-SERVER_IP = 'rnxpi'  # Replace with the server's IP address
+SERVER_IP = '192.168.232.51'  # Replace with the server's IP address
 SERVER_PORT = 1081       # Replace with the server's port number
 
 # Create a TCP socket
